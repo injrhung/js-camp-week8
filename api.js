@@ -129,7 +129,16 @@ async function createOrder(userInfo) {
  */
 async function fetchOrders() {
   // 請實作此函式
-}
+  const response = await axios.get(
+    `${BASE_URL}/api/livejs/v1/admin/${API_PATH}/orders${orderId}`,
+    {
+      headers: {
+        authorization: ADMIN_TOKEN,
+      }
+    }
+  );
+  return response.data.orders;  
+}             
 
 /**
  * 更新訂單狀態
