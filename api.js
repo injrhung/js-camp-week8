@@ -14,6 +14,8 @@ const { API_PATH, BASE_URL, ADMIN_TOKEN } = require('./config');
 async function fetchProducts() {
   // 請實作此函式
   // 回傳 response.data.products
+  const response = await axios.get(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/products`);
+  return response.data.products;
 }
 
 /**
@@ -22,6 +24,12 @@ async function fetchProducts() {
  */
 async function fetchCart() {
   // 請實作此函式
+  const response = await axios.get(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/carts`);
+  return {
+    carts: response.data.carts,
+    total: response.data.total,
+    finalTotal: response.data.finalTotal
+  };
 }
 
 /**
@@ -32,6 +40,13 @@ async function fetchCart() {
  */
 async function addToCart(productId, quantity) {
   // 請實作此函式
+  const resonse = await axios.post(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/carts`, {
+    data: {
+      productId,
+      quantity
+    }
+  });
+  return response.data;  
 }
 
 /**
@@ -42,6 +57,13 @@ async function addToCart(productId, quantity) {
  */
 async function updateCartItem(cartId, quantity) {
   // 請實作此函式
+  const response = await axios.patch(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/carts`, {
+    data: {
+      cartId,
+      quantity
+    }
+  });
+  return response.data;
 }
 
 /**
@@ -51,6 +73,12 @@ async function updateCartItem(cartId, quantity) {
  */
 async function deleteCartItem(cartId) {
   // 請實作此函式
+  const response = await axios.delete(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/carts`, {
+    data: {
+      cartId
+    }
+  });
+  return response.data; 
 }
 
 /**
@@ -59,6 +87,8 @@ async function deleteCartItem(cartId) {
  */
 async function clearCart() {
   // 請實作此函式
+  const response = await axios.delete(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/carts`);
+  return response.data; 
 }
 
 /**
@@ -68,6 +98,19 @@ async function clearCart() {
  */
 async function createOrder(userInfo) {
   // 請實作此函式
+  const response = await axios.post(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/orders`, {
+    data:{
+      user:{
+        name: userInfo.name,
+        tel: userInfo.tel,
+        email: userInfo.email,
+        address: userInfo.address,
+        payment: userInfo.payment
+      }
+      
+    }
+  });
+  return response.data;
 }
 
 // ========== 管理員 API ==========
