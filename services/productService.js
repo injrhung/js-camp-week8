@@ -13,6 +13,8 @@ async function getProducts() {
   // 請實作此函式
   // 提示：使用 fetchProducts() 取得產品陣列
   // 回傳格式：{ products, count: 產品數量 }
+  const prodcuts = await fetchProducts();
+  return { products: prodcuts, count: prodcuts.length };
 }
 
 /**
@@ -24,6 +26,8 @@ async function getProductsByCategory(category) {
   // 請實作此函式
   // 提示：使用 fetchProducts() 取得所有產品後，篩選出符合 category 的產品
   // 回傳格式：篩選後的產品陣列
+  const products = await fetchProducts();
+  return products.filter(product => product.category === category);
 }
 
 /**
@@ -35,6 +39,9 @@ async function getProductById(productId) {
   // 請實作此函式
   // 提示：使用 fetchProducts() 取得所有產品後，找出 id 符合的產品
   // 若找不到，回傳 null
+  const products = await fetchProducts();
+  const product = products.find(product => product.id === productId);
+  return product || null;
 }
 
 /**
@@ -44,6 +51,9 @@ async function getProductById(productId) {
 async function getCategories() {
   // 請實作此函式
   // 提示：使用 fetchProducts() 取得所有產品後，代入到 utils getAllCategories()
+  // 回傳格式：分類陣列
+  const products = await fetchProducts();
+  return getAllCategories(products);  
 }
 
 /**
@@ -63,6 +73,14 @@ function displayProducts(products) {
   //    原價：NT$ 1,000
   //    售價：NT$ 800 (8折)
   // ----------------------------------------
+  products.forEach((product, index) => {
+    console.log(`${index + 1}. ${product.title}`);
+    console.log(`   分類：${product.category}`);
+    console.log(`   原價：NT$ ${formatCurrency(product.origin_price)}`);
+    const discountRate = getDiscountRate(product);
+    console.log(`   售價：NT$ ${formatCurrency(product.price)} (${discountRate})`);
+    console.log('----------------------------------------');
+  });
 }
 
 module.exports = {

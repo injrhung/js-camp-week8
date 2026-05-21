@@ -15,6 +15,16 @@ async function placeOrder(userInfo) {
   // 提示：先用 utils validateOrderUser() 驗證使用者資料，驗證失敗時回傳 { success: false, errors: [...] }
   // 驗證通過後，呼叫 createOrder() 建立訂單
   // 回傳格式：{ success: true, data: ... } / { success: false, errors: [...] }
+  const validation = validateOrderUser(userInfo);
+  if (!validation.isValid) {
+    return { success: false, errors: validation.errors };
+  }
+  try {
+    const result = await createOrder(userInfo);
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, errors: [error.message] };
+  }
 }
 
 /**
